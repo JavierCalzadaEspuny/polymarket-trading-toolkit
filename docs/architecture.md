@@ -1,0 +1,22 @@
+# Architecture
+
+The wrapper is split by Polymarket API surface:
+
+```text
+polymarket_sdk_wrapper/
+├── gamma/   public event and market metadata
+└── clob/    authenticated order and fill workflows
+```
+
+Gamma and CLOB are intentionally independent modules. Gamma only loads a
+public event snapshot through the official SDK and performs fast in-memory
+selection. It does not know about wallets, orders, fills, persistence, or
+trading decisions.
+
+CLOB remains the place for order submission and fill reconciliation. A future
+CLOB implementation can consume the identifier returned by `token(...)`
+without making Gamma depend on CLOB details.
+
+The repository contains no shared application configuration layer. Each
+wrapper accepts the small set of values it needs, so the package can be used
+from scripts, services, or tests without importing another application.

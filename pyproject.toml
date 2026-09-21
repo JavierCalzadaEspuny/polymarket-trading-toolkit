@@ -1,0 +1,13 @@
+[project]
+name = "polymarket-sdk-wrapper"
+version = "0.1.0"
+description = "KISS wrappers around the Polymarket SDK"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "polymarket-client>=0.10.0,<0.11.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13"]
+build-backend = "uv_build"
