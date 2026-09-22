@@ -6,6 +6,7 @@ The wrapper is split by Polymarket API surface:
 polymarket_sdk_wrapper/
 ├── gamma/   public event and market metadata
 └── clob/    authenticated order and fill workflows
+    └── models.py   public CLOB result models
 ```
 
 Gamma and CLOB are intentionally independent modules. Gamma only loads a

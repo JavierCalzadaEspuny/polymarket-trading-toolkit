@@ -60,7 +60,8 @@ finally:
 - `NO_FILL`: no shares were bought because there was no matching liquidity
   within `max_price`.
 
-The result includes the executed fills and their prices. Authentication,
+The result includes typed `Fill` objects with the executed fills and their
+prices. Authentication,
 balance, parameter, transport, timeout, and settlement problems are raised as
 exceptions from the official Polymarket SDK. The polling timeout for an
 accepted order is 10 seconds.

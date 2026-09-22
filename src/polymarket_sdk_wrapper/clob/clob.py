@@ -1,7 +1,5 @@
 import asyncio
-from dataclasses import dataclass
 from decimal import Decimal
-from typing import Literal
 
 from polymarket import AcceptedOrder, AsyncSecureClient, RejectedOrder, RelayerApiKey
 from polymarket.errors import (
@@ -11,19 +9,7 @@ from polymarket.errors import (
     TimeoutError as PolymarketTimeoutError,
 )
 
-
-@dataclass(slots=True)
-class OrderResult:
-    order_id: str | None
-    status: Literal["FULL_FILL", "PARTIAL_FILL", "NO_FILL"]
-    fills: list[dict[str, object]]
-
-    def to_dict(self) -> dict[str, object]:
-        return {
-            "order_id": self.order_id,
-            "status": self.status,
-            "fills": self.fills,
-        }
+from .models import Fill, OrderResult
 
 
 class PolymarketClient:
@@ -155,7 +141,7 @@ class PolymarketClient:
         accepted = response.model_copy(update={"trade_ids": tuple(trade_ids)})
         await self._client.wait_for_order_fill_settlement(accepted)
 
-        fills: list[dict[str, object]] = []
+        fills: list[Fill] = []
         for trade_id in trade_ids:
             page = await self._client.list_account_trades(id=trade_id).first_page()
             try:
@@ -165,18 +151,18 @@ class PolymarketClient:
                     f"Trade {trade_id} was not returned by the account trades endpoint"
                 ) from error
             fills.append(
-                {
-                    "trade_id": str(trade.id),
-                    "size": Decimal(str(trade.size)),
-                    "price": Decimal(str(trade.price)),
-                    "status": str(trade.status),
-                    "transaction_hash": trade.transaction_hash,
-                }
+                Fill(
+                    trade_id=str(trade.id),
+                    size=Decimal(str(trade.size)),
+                    price=Decimal(str(trade.price)),
+                    status=str(trade.status),
+                    transaction_hash=trade.transaction_hash,
+                )
             )
 
-        if any(str(fill["status"]).upper() == "FAILED" for fill in fills):
+        if any(fill.status.upper() == "FAILED" for fill in fills):
             raise TransactionFailedError("At least one order fill failed settlement")
-        elif sum((fill["size"] for fill in fills), Decimal("0")) < order.original_size:
+        elif sum((fill.size for fill in fills), Decimal("0")) < order.original_size:
             status = "PARTIAL_FILL"
         else:
             status = "FULL_FILL"

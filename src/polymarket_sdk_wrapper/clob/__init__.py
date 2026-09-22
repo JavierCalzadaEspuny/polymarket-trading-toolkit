@@ -1,3 +1,4 @@
-from .clob import OrderResult, PolymarketClient
+from .clob import PolymarketClient
+from .models import Fill, OrderResult
 
-__all__ = ["OrderResult", "PolymarketClient"]
+__all__ = ["Fill", "OrderResult", "PolymarketClient"]
