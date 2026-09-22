@@ -34,3 +34,6 @@ dist/
 .DS_Store
 .idea/
 .vscode/
+
+# Codex
+.superpowers

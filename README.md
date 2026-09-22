@@ -26,7 +26,35 @@ the instant used for selection; Gamma does not read the system clock.
 `token(...)` receives the selected market and performs an in-memory lookup. See
 [docs/gamma.md](docs/gamma.md) for the exact rules and the async API.
 
-## Smoke test
+## CLOB quick start
+
+The CLOB wrapper creates one authenticated client that can be reused for
+multiple BUY FAK orders:
+
+```python
+from decimal import Decimal
+
+from polymarket_sdk_wrapper.clob import PolymarketClient
+
+client = await PolymarketClient.create(
+    private_key=private_key,
+    wallet_address=wallet_address,
+    relayer_api_key=relayer_api_key,
+    relayer_api_key_address=relayer_api_key_address,
+)
+try:
+    result = await client.place_order(
+        token=token_id,
+        amount=Decimal("10"),
+        max_price=Decimal("0.55"),
+    )
+finally:
+    await client.close()
+```
+
+See [docs/clob.md](docs/clob.md) for order states, fill details and timeouts.
+
+## Smoke tests
 
 Create a local configuration from the example and fill in a real event link:
 
@@ -35,6 +63,13 @@ cp smoke/gamma/.env.example smoke/gamma/.env
 uv run --env-file smoke/gamma/.env python smoke/gamma/smoke.py
 ```
 
-The real `.env` is ignored by Git. CLOB code lives in its own package under
-`src/polymarket_sdk_wrapper/clob/`; Gamma does not import it. See
+The CLOB smoke script sends a real order and can spend funds:
+
+```bash
+cp smoke/clob/.env.example smoke/clob/.env
+uv run --env-file smoke/clob/.env python smoke/clob/smoke.py
+```
+
+The real `.env` files are ignored by Git. Gamma and CLOB live in independent
+packages under `src/polymarket_sdk_wrapper/`; see
 [docs/architecture.md](docs/architecture.md) for the package boundary.

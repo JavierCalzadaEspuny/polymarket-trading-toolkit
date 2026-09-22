@@ -13,10 +13,14 @@ public event snapshot through the official SDK and performs fast in-memory
 selection. It does not know about wallets, orders, fills, persistence, or
 trading decisions.
 
-CLOB remains the place for order submission and fill reconciliation. A future
-CLOB implementation can consume the identifier returned by `token(...)`
-without making Gamma depend on CLOB details.
+CLOB is the place for authenticated order submission and fill reconciliation.
+It can consume the identifier returned by `token(...)` without making Gamma
+depend on CLOB details. It does not persist orders or positions, track account
+state continuously, or index Polygon logs itself.
 
 The repository contains no shared application configuration layer. Each
 wrapper accepts the small set of values it needs, so the package can be used
 from scripts, services, or tests without importing another application.
+
+See [docs/clob.md](clob.md) and [docs/gamma.md](gamma.md) for the public
+examples and current boundaries of each wrapper.

@@ -41,7 +41,6 @@ def main() -> None:
     print(f"reference:          {reference_time.isoformat()}")
     print(f"reference UTC:      {reference_time.astimezone(UTC).isoformat()}")
     print(f"input:              {reference_value or 'current time'}")
-    print()
     print("SELECTED MARKET")
     print(json.dumps(
         market.model_dump(mode="json", by_alias=True),
@@ -49,7 +48,6 @@ def main() -> None:
         ensure_ascii=False,
         default=str,
     ))
-    print()
     print(f"{outcome} token: {outcome_token}")
 
 
