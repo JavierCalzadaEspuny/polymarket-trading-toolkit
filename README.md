@@ -61,7 +61,8 @@ finally:
   within `max_price`.
 
 The result includes typed `Fill` objects with the executed fills and their
-prices. Authentication,
+prices. In Python, fill sizes and prices use `Decimal`; `OrderResult.to_dict()`
+converts them to strings for JSON serialization. Authentication,
 balance, parameter, transport, timeout, and settlement problems are raised as
 exceptions from the official Polymarket SDK. The polling timeout for an
 accepted order is 10 seconds.

@@ -80,7 +80,21 @@ print(fill.price)
 print(fill.size)
 ```
 
-`OrderResult.to_dict()` always returns the same structure:
+In Python, `size` and `price` are `Decimal` values. `OrderResult` also exposes
+the calculated properties `total_cost`, `total_size`, and `average_price`,
+which only include fills with status `CONFIRMED`. `average_price` is `None` when
+there are no confirmed shares:
+
+```python
+print(result.total_cost)
+print(result.total_size)
+print(result.average_price)
+```
+
+`OrderResult.to_dict()` always returns the same structure. The calculated total
+properties are intentionally available on the Python object but are not added
+to this dictionary. The `Decimal` fields in each fill are converted to strings
+so the result can be passed directly to `json.dumps(...)`:
 
 ```json
 {
