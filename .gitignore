@@ -29,11 +29,9 @@ build/
 dist/
 *.egg-info/
 *.log
+smoke/ledger/*.jsonl
 
 # IDE and operating-system files
 .DS_Store
 .idea/
 .vscode/
-
-# Codex
-.superpowers

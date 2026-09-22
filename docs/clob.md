@@ -1,5 +1,7 @@
 # CLOB
 
+This document describes package version `0.1.0`.
+
 `PolymarketClient` is a small wrapper around `polymarket-client` for
 authenticated `BUY` orders with `FAK` (Fill And Kill) order type.
 
@@ -143,7 +145,8 @@ tracker, use WebSocket, or index Polygon. Applications can store
 ## Smoke test
 
 `smoke/clob/smoke.py` sends a real order and can spend funds. It is not an
-offline test.
+offline test. After the raw result, it prints `total_cost`, `total_size`, and
+`average_price` from the `OrderResult` properties.
 
 ```bash
 cp smoke/clob/.env.example smoke/clob/.env

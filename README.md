@@ -2,6 +2,8 @@
 
 Small, independent wrappers around the official `polymarket-client` SDK.
 
+Current package version: `0.1.0`.
+
 ## Gamma quick start
 
 Install the project with `uv`, then load an event snapshot:
@@ -69,6 +71,44 @@ accepted order is 10 seconds.
 
 See [docs/clob.md](docs/clob.md) for the complete API and execution details.
 
+## Optional order ledger
+
+The optional ledger stores executed CLOB results as `OrderRecord` values in an
+append-only JSONL file. Order submission remains explicit through the CLOB
+client; the application creates and registers the record after a successful
+result:
+
+```python
+import time
+from decimal import Decimal
+
+from polymarket_sdk_wrapper.ledger import OrderLedger, OrderRecord
+
+# client is the initialized PolymarketClient from the CLOB example above.
+ledger = OrderLedger("data/orders.jsonl")
+result = await client.place_order(
+    token=token_id,
+    amount=Decimal("10"),
+    max_price=Decimal("0.55"),
+)
+record = OrderRecord(
+    created_at=int(time.time()),
+    token=token_id,
+    amount=Decimal("10"),
+    order_result=result,
+    max_price=Decimal("0.55"),
+    outcome="Yes",
+    side="BUY",
+    order_type="FAK",
+)
+await ledger.register_order(record)
+```
+
+Gamma, CLOB and the ledger remain independent. Direct CLOB use does not
+require a ledger, and `OrderRecord` metadata is optional when the application
+does not have outcome, side or order-type context available. See
+[docs/ledger.md](docs/ledger.md) for the complete ledger API.
+
 ## Smoke tests
 
 Create a local configuration from the example and fill in a real event link:
@@ -84,6 +124,17 @@ The CLOB smoke script sends a real order and can spend funds:
 cp smoke/clob/.env.example smoke/clob/.env
 uv run --env-file smoke/clob/.env python smoke/clob/smoke.py
 ```
+
+The ledger smoke simulates a CLOB result, records it as an `OrderRecord` in
+`smoke/ledger/orders.jsonl`, and prints the calculated properties and orders
+currently loaded by the ledger:
+
+```bash
+uv run smoke/ledger/smoke.py
+```
+
+Review the token, amount, minimum order size, current order book, and
+`max_price` before running the CLOB real-order smoke.
 
 The real `.env` files are ignored by Git. Gamma and CLOB live in independent
 packages under `src/polymarket_sdk_wrapper/`; see

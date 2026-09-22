@@ -1,5 +1,7 @@
 # Gamma
 
+This document describes package version `0.1.0`.
+
 `GammaEvent` loads one event with the official Polymarket SDK and keeps the
 parsed `Event` snapshot in memory. All lookups after loading are local.
 

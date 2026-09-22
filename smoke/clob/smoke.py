@@ -48,6 +48,9 @@ async def main() -> None:
         )
         print(f"Order result: {result.status}")
         print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str))
+        print(f"total cost:    {result.total_cost}")
+        print(f"total size:    {result.total_size}")
+        print(f"average price: {result.average_price}")
     finally:
         await client.close()
         print("Client closed successfully")
