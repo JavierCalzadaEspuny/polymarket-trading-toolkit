@@ -26,10 +26,11 @@ the instant used for selection; Gamma does not read the system clock.
 `token(...)` receives the selected market and performs an in-memory lookup. See
 [docs/gamma.md](docs/gamma.md) for the exact rules and the async API.
 
-## CLOB quick start
+## CLOB
 
-The CLOB wrapper creates one authenticated client that can be reused for
-multiple BUY FAK orders:
+The CLOB wrapper provides a reusable authenticated client for `BUY` orders with
+`FAK` (Fill And Kill). The client can send multiple orders during the same
+process:
 
 ```python
 from decimal import Decimal
@@ -52,7 +53,19 @@ finally:
     await client.close()
 ```
 
-See [docs/clob.md](docs/clob.md) for order states, fill details and timeouts.
+`place_order(...)` always returns an `OrderResult` with one of these statuses:
+
+- `FULL_FILL`: the requested amount was fully executed.
+- `PARTIAL_FILL`: only part of the requested amount was executed.
+- `NO_FILL`: no shares were bought because there was no matching liquidity
+  within `max_price`.
+
+The result includes the executed fills and their prices. Authentication,
+balance, parameter, transport, timeout, and settlement problems are raised as
+exceptions from the official Polymarket SDK. The polling timeout for an
+accepted order is 10 seconds.
+
+See [docs/clob.md](docs/clob.md) for the complete API and execution details.
 
 ## Smoke tests
 

@@ -62,19 +62,17 @@ el order book del CLOB inmediatamente antes.
 
 FAK intenta ejecutar inmediatamente contra la liquidez disponible. La parte no
 ejecutada se cancela y la orden nunca queda descansando en el book. Si el CLOB
-rechaza la operación porque no hay match, el SDK puede lanzar
-`RequestRejectedError`; el smoke test reconoce ese caso y lo imprime como
-`NO_FILL`.
+rechaza la operación porque no hay match, el wrapper devuelve un
+`OrderResult` con estado `NO_FILL`.
 
 Después de aceptar una orden, el wrapper consulta su estado cada 250 ms y
 espera como máximo 10 segundos a que aparezcan sus trade ids. El límite está
 integrado en la clase y no se configura por llamada. Si se alcanza, devuelve
-`ORDER_STATUS_TIMEOUT`.
+lanza una excepción `polymarket.errors.TimeoutError`.
 
 ## Resultado y estados
 
-`OrderResult.to_dict()` devuelve únicamente los datos normalizados por el
-wrapper:
+`OrderResult.to_dict()` devuelve siempre la misma estructura:
 
 ```json
 {
@@ -96,21 +94,12 @@ Estados posibles:
 
 - `FULL_FILL`: todas las shares solicitadas se ejecutaron.
 - `PARTIAL_FILL`: solo se ejecutó una parte.
-- `REJECTED`: el SDK devolvió una respuesta `RejectedOrder`.
-- `UNMATCHED`: el CLOB marcó la orden aceptada como no emparejada.
-- `INVALID`: el CLOB marcó la orden aceptada como inválida.
-- `CANCELED`: la orden fue cancelada sin ejecución.
-- `CANCELED_MARKET_RESOLVED`: la orden fue cancelada porque el mercado se
-  resolvió.
-- `SETTLEMENT_FAILED`: al menos un fill terminó con estado `FAILED`.
-- `ORDER_STATUS_TIMEOUT`: la orden aceptada no expuso sus trade ids dentro de
-  los 10 segundos.
+- `NO_FILL`: no se ejecutó ninguna share porque no había una contraparte
+  compatible con `max_price`.
 
-Los nombres `UNMATCHED`, `INVALID`, `CANCELED` y
-`CANCELED_MARKET_RESOLVED` se devuelven tal como los proporciona el CLOB; el
-wrapper no los traduce a nombres propios. Los errores de autenticación,
-transporte, validación y los rechazos del SDK que no sean gestionados
-explícitamente se propagan como excepciones.
+Los errores de autenticación, transporte, validación, balance, timeout y
+settlement se propagan como excepciones del SDK. El wrapper solo convierte los
+rechazos FAK conocidos por falta de match en `NO_FILL`.
 
 ## Fills y niveles de precio
 

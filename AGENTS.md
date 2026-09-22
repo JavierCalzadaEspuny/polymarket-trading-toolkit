@@ -44,10 +44,12 @@ and delete the file and any bytecode before finishing.
 - Use `Decimal` for prices, budgets, shares, fees, and PnL-related values.
 - Keep the official SDK models where they are useful; do not duplicate its
   entire domain model in the wrapper.
-- Preserve machine-readable error codes and human-readable messages.
-- A known FAK no-match rejection is normalized as `NO_FILL` by the manual smoke
-  script; authentication, transport, and unrelated request errors should
-  remain visible to callers.
+- Preserve machine-readable error codes and human-readable messages on SDK
+  exceptions; successful order results intentionally expose only their status
+  and fills.
+- A known FAK no-match rejection is normalized as an `OrderResult` with status
+  `NO_FILL`; authentication, transport, and unrelated request errors should
+  remain visible as SDK exceptions.
 - `FULL_FILL` means the requested quantity was filled, not that execution used
   one price level. The current wrapper returns the aggregate fill price and
   does not expose `maker_orders`.

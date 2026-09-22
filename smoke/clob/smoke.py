@@ -15,8 +15,6 @@ import json
 import os
 from decimal import Decimal
 
-from polymarket.errors import RequestRejectedError
-
 from polymarket_sdk_wrapper.clob import PolymarketClient
 
 
@@ -43,31 +41,13 @@ async def main() -> None:
     print("Client created successfully")
 
     try:
-        try:
-            result = await client.place_order(
-                token=token,
-                amount=amount,
-                max_price=max_price,
-            )
-        except RequestRejectedError as error:
-            message = str(error).lower()
-            if (error.code or "").lower() not in {"fak_not_filled", "unmatched"} and (
-                "no orders found to match with fak order" not in message
-            ):
-                raise
-            result = {
-                "order_id": None,
-                "status": "NO_FILL",
-                "fills": [],
-                "error_code": error.code or "fak_not_filled",
-                "error_message": str(error),
-            }
-        if isinstance(result, dict):
-            print("FAK order completed without a fill")
-            print(json.dumps(result, indent=2, ensure_ascii=False, default=str))
-        else:
-            print(f"Order result: {result.status}")
-            print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str))
+        result = await client.place_order(
+            token=token,
+            amount=amount,
+            max_price=max_price,
+        )
+        print(f"Order result: {result.status}")
+        print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str))
     finally:
         await client.close()
         print("Client closed successfully")
