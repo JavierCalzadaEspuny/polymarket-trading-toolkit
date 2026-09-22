@@ -1,15 +1,15 @@
-# Polymarket SDK Wrapper
+# Polymarket Trading Toolkit
 
-Small, independent wrappers around the official `polymarket-client` SDK.
+Small, independent tools around the official `polymarket-client` SDK.
 
-Current package version: `0.1.0`.
+Current package version: `1.0.0`.
 
 ## Gamma quick start
 
 Install the project with `uv`, then load an event snapshot:
 
 ```python
-from polymarket_sdk_wrapper.gamma import GammaEvent, token
+from polymarket_trading_toolkit.gamma import GammaEvent, token
 from datetime import datetime
 
 link = "https://polymarket.com/event/example"
@@ -37,7 +37,7 @@ process:
 ```python
 from decimal import Decimal
 
-from polymarket_sdk_wrapper.clob import PolymarketClient
+from polymarket_trading_toolkit.clob import PolymarketClient
 
 client = await PolymarketClient.create(
     private_key=private_key,
@@ -82,7 +82,7 @@ result:
 import time
 from decimal import Decimal
 
-from polymarket_sdk_wrapper.ledger import OrderLedger, OrderRecord
+from polymarket_trading_toolkit.ledger import OrderLedger, OrderRecord
 
 # client is the initialized PolymarketClient from the CLOB example above.
 ledger = OrderLedger("data/orders.jsonl")
@@ -137,5 +137,5 @@ Review the token, amount, minimum order size, current order book, and
 `max_price` before running the CLOB real-order smoke.
 
 The real `.env` files are ignored by Git. Gamma and CLOB live in independent
-packages under `src/polymarket_sdk_wrapper/`; see
+packages under `src/polymarket_trading_toolkit/`; see
 [docs/architecture.md](docs/architecture.md) for the package boundary.

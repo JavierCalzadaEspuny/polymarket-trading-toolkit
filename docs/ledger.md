@@ -11,8 +11,8 @@ creates an `OrderRecord` from the result, and registers the record:
 import time
 from decimal import Decimal
 
-from polymarket_sdk_wrapper.clob import PolymarketClient
-from polymarket_sdk_wrapper.ledger import OrderLedger, OrderRecord
+from polymarket_trading_toolkit.clob import PolymarketClient
+from polymarket_trading_toolkit.ledger import OrderLedger, OrderRecord
 
 client = ...  # an initialized PolymarketClient
 ledger = OrderLedger("data/orders.jsonl")

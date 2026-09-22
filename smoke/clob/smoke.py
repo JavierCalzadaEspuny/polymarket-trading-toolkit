@@ -15,7 +15,7 @@ import json
 import os
 from decimal import Decimal
 
-from polymarket_sdk_wrapper.clob import PolymarketClient
+from polymarket_trading_toolkit.clob import PolymarketClient
 
 
 def _required(name: str) -> str:

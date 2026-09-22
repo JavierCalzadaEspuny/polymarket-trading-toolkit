@@ -1,11 +1,11 @@
 # Architecture
 
-This document describes package version `0.1.0`.
+This document describes package version `1.0.0`.
 
 The wrapper is split by Polymarket API surface:
 
 ```text
-polymarket_sdk_wrapper/
+polymarket_trading_toolkit/
 ├── gamma/   public event and market metadata
 ├── clob/    authenticated order and fill workflows
 │   └── models.py   public CLOB result models

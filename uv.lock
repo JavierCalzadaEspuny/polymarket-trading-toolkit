@@ -559,8 +559,8 @@ wheels = [
 ]
 
 [[package]]
-name = "polymarket-sdk-wrapper"
-version = "0.1.0"
+name = "polymarket-trading-toolkit"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "polymarket-client" },

@@ -1,7 +1,7 @@
 [project]
-name = "polymarket-sdk-wrapper"
-version = "0.1.0"
-description = "KISS wrappers around the Polymarket SDK"
+name = "polymarket-trading-toolkit"
+version = "1.0.0"
+description = "Reusable Python tools for interacting with Polymarket markets and orders"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

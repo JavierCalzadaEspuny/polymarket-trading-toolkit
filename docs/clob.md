@@ -1,6 +1,6 @@
 # CLOB
 
-This document describes package version `0.1.0`.
+This document describes package version `1.0.0`.
 
 `PolymarketClient` is a small wrapper around `polymarket-client` for
 authenticated `BUY` orders with `FAK` (Fill And Kill) order type.
@@ -14,7 +14,7 @@ instance can then submit multiple orders.
 ```python
 from decimal import Decimal
 
-from polymarket_sdk_wrapper.clob import PolymarketClient
+from polymarket_trading_toolkit.clob import PolymarketClient
 
 
 client = await PolymarketClient.create(

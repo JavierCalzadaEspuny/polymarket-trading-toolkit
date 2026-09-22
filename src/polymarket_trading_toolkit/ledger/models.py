@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Literal
 
-from polymarket_sdk_wrapper.clob import Fill, OrderResult
+from polymarket_trading_toolkit.clob import Fill, OrderResult
 
 
 @dataclass(slots=True)

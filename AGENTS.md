@@ -8,8 +8,8 @@ application, persistence layer, or trading daemon.
 
 ## Layout
 
-- `src/polymarket_sdk_wrapper/gamma/`: public event and market snapshots.
-- `src/polymarket_sdk_wrapper/clob/`: authenticated BUY FAK orders and fill
+- `src/polymarket_trading_toolkit/gamma/`: public event and market snapshots.
+- `src/polymarket_trading_toolkit/clob/`: authenticated BUY FAK orders and fill
   reconciliation.
 - `docs/`: user-facing API and architecture documentation.
 - `smoke/`: explicitly manual scripts; the CLOB smoke script sends a real

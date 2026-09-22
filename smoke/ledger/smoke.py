@@ -14,8 +14,8 @@ import time
 from decimal import Decimal
 from pathlib import Path
 
-from polymarket_sdk_wrapper.clob import Fill, OrderResult
-from polymarket_sdk_wrapper.ledger import OrderLedger, OrderRecord
+from polymarket_trading_toolkit.clob import Fill, OrderResult
+from polymarket_trading_toolkit.ledger import OrderLedger, OrderRecord
 
 
 ORDERS_PATH = Path(__file__).with_name("orders.jsonl")

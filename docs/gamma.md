@@ -1,6 +1,6 @@
 # Gamma
 
-This document describes package version `0.1.0`.
+This document describes package version `1.0.0`.
 
 `GammaEvent` loads one event with the official Polymarket SDK and keeps the
 parsed `Event` snapshot in memory. All lookups after loading are local.
@@ -8,7 +8,7 @@ parsed `Event` snapshot in memory. All lookups after loading are local.
 ```python
 from datetime import UTC, datetime
 
-from polymarket_sdk_wrapper.gamma import GammaEvent, token
+from polymarket_trading_toolkit.gamma import GammaEvent, token
 
 event = GammaEvent.load("https://polymarket.com/event/example")
 market = event.nearest_market(reference_time=datetime.now(UTC))

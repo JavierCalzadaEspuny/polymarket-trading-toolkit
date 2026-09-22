@@ -11,7 +11,7 @@ import json
 import os
 from datetime import UTC, datetime
 
-from polymarket_sdk_wrapper import GammaEvent, token
+from polymarket_trading_toolkit import GammaEvent, token
 
 
 def _required(name: str) -> str:
